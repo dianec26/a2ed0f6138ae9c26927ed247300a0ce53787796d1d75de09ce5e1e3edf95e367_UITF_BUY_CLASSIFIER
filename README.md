@@ -39,11 +39,11 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ]`
 4. Synchronize the libraries: `uv sync`
 
-### How to run
+### Running the Pipeline
 1. Set up uv as seen in **Setup Instructions Section**
 2. Activate the virtual environment: `source .venv/bin/activate`
 3. Run the pipeline script: `Python src/run_pipeline.py`
-  - script flow: data_processing.py > model_training.py > evaluation.py
+      - script flow: data_processing.py > model_training.py > evaluation.py
 
 ### Precommit Configuration
 - repo: https://github.com/pre-commit/pre-commit-hooks:
