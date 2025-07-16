@@ -10,12 +10,12 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 
 ### Folder Structure
 .
-└── uitf-buy-classifier/ \n
-    ├── data/ \n
-    ├── logs/ \n
-    ├── models/ \n
-    ├── reports/ \n
-    └── src/ \n
+└── uitf-buy-classifier/ <br>
+    ├── data/ <br>
+    ├── logs/ <br>
+    ├── models/ <br>
+    ├── reports/ <br>
+    └── src/ <br>
   
 #### Folder Description
 - data/: Contains the cleaned and feature-engineered datasets used to build and evaluate the model.
