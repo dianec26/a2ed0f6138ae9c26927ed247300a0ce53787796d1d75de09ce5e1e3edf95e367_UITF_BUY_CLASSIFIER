@@ -8,14 +8,14 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ### Data: 
 - found in the data folder (data < 1mb)
 
-### Folder Structure
-. <br>
-└── uitf-buy-classifier/ <br>
-    ├── data/ <br>
-    ├── logs/ <br>
-    ├── models/ <br>
-    ├── reports/ <br>
-    └── src/ <br>
+### Folder Structure:
+.<br>
+└── uitf-buy-classifier/<br>
+        ├── data/<br>
+        ├── logs/<br>
+        ├── models/<br>
+        ├── reports/<br>
+        └── src/<br>
   
 #### Folder Description
 - data/: Contains the cleaned and feature-engineered datasets used to build and evaluate the model.
@@ -39,17 +39,17 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ]`
 4. Synchronize the libraries: `uv sync`
 
-### Running the Pipeline
+### Running the Pipeline:
 1. Set up uv as seen in **Setup Instructions Section**
 2. Activate the virtual environment: `source .venv/bin/activate`
 3. Run the pipeline script: `Python src/run_pipeline.py`
       - script flow: data_processing.py > model_training.py > evaluation.py
 
-### Precommit Configuration
+### Precommit Configuration:
 - repo: https://github.com/pre-commit/pre-commit-hooks:
   - checks for the trailing-whitespace, end-of-file-fixer and spell-check for the README.md file
 - repo: https://github.com/psf/black:
   - Runs Black, an opinionated Python code formatter, to automatically format Python files to a consistent style (e.g., consistent indentation, line length, and quote usage).
  
-### Reflection
+### Reflection:
 During the development of this project, one challenge I encountered was configuring pre-commit hooks, particularly ensuring that all lines adhered to the 88-character limit. This required manually reviewing and adjusting multiple lines while experimenting with different formatting tools to find a configuration that balanced readability and compliance. Additionally, switching Python versions within a virtual environment proved tricky—I initially attempted to change versions without deactivating the environment, which led to version conflicts until I properly deactivated and reconfigured it. Finally, installing AutoGluon posed dependency issues due to strict version requirements for scikit-learn and pandas, which I resolved by explicitly specifying compatible versions in the pyproject.toml file to maintain a consistent and functional environment.
