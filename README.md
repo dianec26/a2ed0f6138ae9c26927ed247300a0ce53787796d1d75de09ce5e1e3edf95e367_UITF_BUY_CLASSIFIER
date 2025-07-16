@@ -24,7 +24,7 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 - reports/: Includes visualizations, evaluation metrics, and summaries generated after model training.
 - src/: Contains all source code such as scripts for data processing, feature engineering, training, and evaluation.
 
-### Setup Instructions: Document the exact steps you used to set up the UV
+### Setup Instructions (Setting up UV): 
 1. Install uv: `pip install uv`
 2. Initialize uv: `uv init`
 3. Define dependencies in pyproject.toml (optional if you already have the .toml file): `
