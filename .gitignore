@@ -12,8 +12,6 @@ build/
 develop-eggs/
 dist/
 downloads/
-#ignore data folder
-data/
 eggs/
 .eggs/
 lib/
@@ -173,8 +171,8 @@ cython_debug/
 .ruff_cache/
 
 
-# Cursor  
-#  Cursor is an AI-powered code editor.`.cursorignore` specifies files/directories to 
+# Cursor
+#  Cursor is an AI-powered code editor.`.cursorignore` specifies files/directories to
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
