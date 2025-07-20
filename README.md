@@ -11,11 +11,25 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ### Folder Structure:
 .<br>
 └── uitf-buy-classifier/<br>
-        ├── data/<br>
-        ├── logs/<br>
-        ├── models/<br>
-        ├── reports/<br>
-        └── src/<br>
+├── data/                        # Data files (raw, processed, etc.)
+├── logs/          
+├── models/          
+├── reports/       
+├── src/   
+└── deploy/                      # Containerization and orchestration support
+    ├── docker/                  # Dockerfiles and build assets
+    │   ├── Dockerfile           # Container definition for ML app
+    │   └── requirements.txt     # Python dependencies
+    │
+    └── airflow/                 # Airflow orchestration
+        ├── dags/                # DAG definitions for ML workflows
+        │   └── example_dag.py   # Example DAG script
+        │
+        ├── logs/                # Log folder (placeholder, auto-managed by Airflow)
+        │   └── .gitkeep         # Keeps the directory in version control
+        │
+        └── config/              # (Optional) Custom Airflow settings
+            └── airflow_local_settings.py
   
 #### Folder Description
 - data/: Contains the cleaned and feature-engineered datasets used to build and evaluate the model.
