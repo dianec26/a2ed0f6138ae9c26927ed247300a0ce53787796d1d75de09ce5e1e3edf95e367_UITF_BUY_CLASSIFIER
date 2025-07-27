@@ -79,9 +79,9 @@ This project uses a lightweight Docker image to run a Python 3.10 application wi
 1. Base Image: python:3.10.13-slim provides a small and secure foundation for running Python apps.
 2. System Packages: build-essential, gcc, and curl are installed to support any Python packages that require compilation.
 3. Dependency Management: The project uses uv for fast, reproducible dependency resolution via pyproject.toml.
-   - Note: uv install caused issues during Docker build, likely due to how it tries to create or manage virtual environments in a non-standard context. To avoid this, uv 4. sync was used instead, which installs dependencies as declared in the lockfile without resolving them again.
-5. App Structure: Source code is placed in /src/, and the main entry point is src/run_pipeline.py.
-6. Startup Command: The application runs using the Python binary inside the .venv created by uv.
+    - Note: uv install caused issues during Docker build, likely due to how it tries to create or manage virtual environments in a non-standard context. To avoid this, uv sync was used instead, which installs dependencies as declared in the lockfile without resolving them again.
+4. App Structure: Source code is placed in /src/, and the main entry point is src/run_pipeline.py.
+5. Startup Command: The application runs using the Python binary inside the .venv created by uv.
    
 This setup avoids unnecessary layers and complexity while ensuring fast dependency management and a consistent runtime environment.
 
