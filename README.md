@@ -120,7 +120,8 @@ Mount the data and model directories and run the pipeline in the Docker image:
     - Run docker compose: ```docker compose up```
     - Shutdown docker compose: ```docker compose down -v```
     - Cleaning up: ```docker compose down --volumes --rmi all```
-
+      
+note: install airflow in the docker image `uv pip install "apache-airflow==3.0.3”`
 ### DAG Design:
     1. Dag Structure
     2. Task
