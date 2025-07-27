@@ -62,6 +62,7 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
       - script flow: data_processing.py > model_training.py > evaluation.py
 
 ## Docker Setup: 
+### Dockerfile Description:
 This project uses a lightweight Docker image to run a Python 3.10 application with minimal overhead.
 1. Base Image: python:3.10.13-slim provides a small and secure foundation for running Python apps.
 2. System Packages: build-essential, gcc, and curl are installed to support any Python packages that require compilation.
