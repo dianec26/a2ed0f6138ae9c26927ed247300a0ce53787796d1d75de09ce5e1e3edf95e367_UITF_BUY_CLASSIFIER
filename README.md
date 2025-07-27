@@ -69,7 +69,7 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 7. Copy scripts ```COPY /src/ src/```
 8. Run pipeline ```CMD ["python", "src/run_pipeline.py"]```
     
-#### Containerize Your ML Pipeline with Docker:
+### Containerize Your ML Pipeline with Docker:
 - Run and build dockerfile (note we run this inside root folder)
     - Create a Docker ml-pipeline image using the dockerfile
       <pre> <code>
