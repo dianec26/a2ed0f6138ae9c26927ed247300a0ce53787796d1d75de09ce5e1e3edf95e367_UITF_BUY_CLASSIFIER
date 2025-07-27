@@ -92,7 +92,7 @@ Run and build the Dockerfile (note: this is run from the root folder):
 docker build -f deploy/docker/Dockerfile -t a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline .
 </code></pre>
 
-#### 2.  Volume Strategies
+#### 3.  Volume Strategies
 Mount the data and model directories and run the pipeline in the Docker image:
 - data volume: Mounts the local data/ folder into the container at /app/data, so the pipeline can access raw input files.
 - models volume: Mounts the local models/ folder into the container at /app/models, allowing the pipeline to save trained models back to the host machine.
