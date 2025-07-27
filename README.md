@@ -11,26 +11,26 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ## Folder Structure:
 <pre><code>
 └── uitf-buy-classifier/<br>
-├── data/                        # Data files (raw, processed, etc.) 
-├── logs/          
+├── data/                            # Data files (raw, processed, etc.) 
+├── logs/                            # Model logs an artifact, logs from loguru and model performance
 ├── models/          
 ├── reports/       
 ├── src/   
-└── deploy/                      # Containerization and orchestration support
-    ├── docker/                  # Dockerfiles and build assets
-    │   ├── Dockerfile           # Container definition for ML app
-    │   └── requirements.txt     # Python dependencies
+└── deploy/                          # Containerization and orchestration support
+    ├── docker/                      # Dockerfiles and build assets
+    │   └── dockerfile               # Container definition for ML app
     │
-    └── airflow/                 # Airflow orchestration
-        ├── dags/                # DAG definitions for ML workflows<br>
-        │   └── example_dag.py   # Example DAG script<br>
+    └── airflow/                     # Airflow orchestration
+        ├── dags/                    # DAG definitions for ML workflows<br>
+        │   └── ml_pipeline_dag,py   # Example DAG script<br>
         │
-        ├── logs/                # Log folder (placeholder, auto-managed by Airflow)
-        │   └── .gitkeep         # Keeps the directory in version control
+        ├── logs/                    # Log folder (placeholder, auto-managed by Airflow)
+        │   └── .gitkeep             # Keeps the directory in version control
         │
-        └── config/              # (Optional) Custom Airflow settings
+        └── config/                  # (Optional) Custom Airflow settings
             └── airflow_local_settings.py
 </code></pre>
+
 #### Folder Description
 - data/: Contains the cleaned and feature-engineered datasets used to build and evaluate the model.
 - logs/: Stores training and experiment logs for tracking progress and debugging.
@@ -62,21 +62,22 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
       - script flow: data_processing.py > model_training.py > evaluation.py
 
 ## Docker Setup: 
-1. Create a Dockerfile 
-2. Specify the Python version ```FROM python:3.10.13-slim```
-3. Install Python
-<pre><code> RUN apt-get update && apt-get install -y \
-    build-essential \
-    gcc \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-</code></pre>
-4. Install UV ```RUN pip install uv```
-5. Copy pyrproject.toml .  ```COPY pyproject.toml .```
-6. Uv sync ```RUN uv sync```
-7. Copy scripts ```COPY /src/ src/```
-8. Run pipeline ```CMD ["python", "src/run_pipeline.py"]```
-    
+This project uses a lightweight Docker image to run a Python 3.10 application with minimal overhead.
+1. Base Image: python:3.10.13-slim provides a small and secure foundation for running Python apps.
+2. System Packages: build-essential, gcc, and curl are installed to support any Python packages that require compilation.
+3. Dependency Management: The project uses uv for fast, reproducible dependency resolution via pyproject.toml.
+   - Note: uv install caused issues during Docker build, likely due to how it tries to create or manage virtual environments in a non-standard context. To avoid this, uv 4. sync was used instead, which installs dependencies as declared in the lockfile without resolving them again.
+5. App Structure: Source code is placed in /src/, and the main entry point is src/run_pipeline.py.
+6. Startup Command: The application runs using the Python binary inside the .venv created by uv.
+   
+This setup avoids unnecessary layers and complexity while ensuring fast dependency management and a consistent runtime environment.
+
+
+
+This setup keeps the image lean and easy to maintain while ensuring compatibility with CI/CD environments and reproducible builds.
+
+
+
 ### Containerize Your ML Pipeline with Docker:
 - Run and build Dockerfile (note we run this inside root folder)
     - Create a Docker ml-pipeline image using the dockerfile
