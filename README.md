@@ -53,6 +53,44 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ]`
 4. Synchronize the libraries: `uv sync`
 
+### Docker Set up Instructions
+1. Create a dockerfile 
+2. Specify the Python version ```FROM python:3.10.13-slim```
+3. Install Python
+<code> RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+</code>
+4. Install UV ```RUN pip install uv```
+5. Copy pyrproject.toml .  ```COPY pyproject.toml .```
+6. Uv sync ```RUN uv sync```
+7. Copy scripts ```COPY /src/ src/```
+8. Run pipeline ```CMD ["python", "src/run_pipeline.py"]```
+    
+#### Containerize Your ML Pipeline with Docker:
+- Run and build dockerfile (note we run this inside root folder)
+    - Create a Docker ml-pipeline image using the dockerfile
+      <pre> <code>
+        docker build -f deploy/docker/Dockerfile -t a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline .
+       </code></pre>
+    - Mount the data and model and run the pipeline in the docker image
+      <pre> <code> docker run --rm \
+          -v "$(pwd)/data:/app/data" \
+          -v "$(pwd)/models:/app/models" \
+          a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline </code> </pre>
+
+### Airflow Docker Compose Set up:
+1. Extract the Docker Compose and follow the instructions here
+    - https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html
+2. For Local implementation, change the following:
+    - Change ```CeleryExecutor``` to ```LocalExecutor```
+    - For lightweight docker contianers: set ```AIRFLOW__CORE__LOAD_EXAMPLES: 'false'```
+    - Remove the following block of code since we are using a local implementation:
+      - ```flower```
+      - ```airflow-worker```
+
 ### Running the Pipeline:
 1. Set up uv as seen in **Setup Instructions Section**
 2. Activate the virtual environment: `source .venv/bin/activate`
@@ -69,14 +107,4 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 During the development of this project, one challenge I encountered was configuring pre-commit hooks, particularly ensuring that all lines adhered to the 88-character limit. This required manually reviewing and adjusting multiple lines while experimenting with different formatting tools to find a configuration that balanced readability and compliance. Additionally, switching Python versions within a virtual environment proved tricky—I initially attempted to change versions without deactivating the environment, which led to version conflicts until I properly deactivated and reconfigured it. Finally, installing AutoGluon posed dependency issues due to strict version requirements for scikit-learn and pandas, which I resolved by explicitly specifying compatible versions in the pyproject.toml file to maintain a consistent and functional environment.
 
 
-### Containerize Your ML Pipeline with Docker:
-- Run and build dockerfile (note we run this inside root folder)
-    - Create a Docker ml-pipeline image using the dockerfile
-      <pre> <code>
-        docker build -f deploy/docker/Dockerfile -t a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline .
-       </code></pre>
-    - Mount the data and model and run the pipeline in the docker image
-      <pre> <code> docker run --rm \
-          -v "$(pwd)/data:/app/data" \
-          -v "$(pwd)/models:/app/models" \
-          a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline </code> </pre>
+
