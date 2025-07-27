@@ -61,9 +61,21 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 3. Run the pipeline script: `Python src/run_pipeline.py`
       - script flow: data_processing.py > model_training.py > evaluation.py
 
-## Docker Setup: 
-### Dockerfile Description:
-This project uses a lightweight Docker image to run a Python 3.10 application with minimal overhead.
+## Docker
+
+### Docker Main Process: 
+1. Docker Installation: install Docker Desktop (https://docs.docker.com/engine/install/)
+3. Dockerfile Creation:  Docker builds images by reading the instructions from a Dockerfile. A Dockerfile is a text file containing instructions for building your source code. see [Dockerfile Description](# Dockerfile Description)
+4. Image Building: Build an image using the docker build command. This reads the Dockerfile and packages the application into an image that can be run as a container.
+5. Volume Strategy: Volumes are used to persist and share data between the host machine and the Docker container. This allows the pipeline to read input data and write outputs (such as models or logs) without modifying the container image.
+
+### Docker Integration Flow:
+1. Dockerfile
+2. Build/run commands
+3. Volume Strategies
+   
+#### 1. Dockerfile:
+This project uses a lightweight Docker image to run a Python 3.10 application with minimal overhead. <br>
 1. Base Image: python:3.10.13-slim provides a small and secure foundation for running Python apps.
 2. System Packages: build-essential, gcc, and curl are installed to support any Python packages that require compilation.
 3. Dependency Management: The project uses uv for fast, reproducible dependency resolution via pyproject.toml.
@@ -73,18 +85,24 @@ This project uses a lightweight Docker image to run a Python 3.10 application wi
    
 This setup avoids unnecessary layers and complexity while ensuring fast dependency management and a consistent runtime environment.
 
+#### 2. Build/run commands
+Run and build the Dockerfile (note: this is run from the root folder):
+- Create a Docker ml-pipeline image using the Dockerfile:
+<pre> <code>
+docker build -f deploy/docker/Dockerfile -t a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline .
+</code></pre>
 
+#### 2.  Volume Strategies
+Mount the data and model directories and run the pipeline in the Docker image:
+- data volume: Mounts the local data/ folder into the container at /app/data, so the pipeline can access raw input files.
+- models volume: Mounts the local models/ folder into the container at /app/models, allowing the pipeline to save trained models back to the host machine.
+<pre> <code>docker run --rm -v "$(pwd)/data:/app/data" -v "$(pwd)/models:/app/models" 2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline</code></pre>
+- Implication: Clear separation between code (in the image) and runtime data (in mounted volumes), which aligns with container best practices.
+  
 
-### Containerize Your ML Pipeline with Docker:
-- Run and build Dockerfile (note we run this inside root folder)
-    - Create a Docker ml-pipeline image using the dockerfile
-      <pre> <code>
-        docker build -f deploy/docker/Dockerfile -t a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline .
-       </code></pre>
-    - Mount the data and model and run the pipeline in the docker image
-      <pre> <code> docker run --rm \ -v "$(pwd)/data:/app/data" \ -v "$(pwd)/models:/app/models" \ a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline </code> </pre>
+## Airflow 
 
-## Airflow Docker Compose Setup:
+### Docker Compose Setup:
 1. Extract the Docker Compose and follow the instructions here
     - https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html
 2. For Local implementation, change the following:
