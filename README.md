@@ -71,5 +71,12 @@ During the development of this project, one challenge I encountered was configur
 
 ### Containerize Your ML Pipeline with Docker:
 - Run and build dockerfile (note we run this inside root folder)
-    - docker build -f deploy/docker/Dockerfile -t a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline .
-    - docker run --rm -v $(pwd)/data:/app/data -v $(pwd)/models:/app/models a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline
+    - Create a Docker ml-pipeline image using the dockerfile
+      <pre> <code>
+        docker build -f deploy/docker/Dockerfile -t a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline .
+       </code></pre>
+    - Mount the data and model and run the pipeline in the docker image
+      <pre> <code> docker run --rm \
+          -v "$(pwd)/data:/app/data" \
+          -v "$(pwd)/models:/app/models" \
+          a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367-ml-pipeline </code> </pre>
