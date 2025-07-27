@@ -73,10 +73,11 @@ x-airflow-common:
     # The following line can be used to set a custom config file, stored in the local config folder
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
   volumes:
-    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
-    - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
-    - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
-    - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    -  ./src:/opt/airflow/src
+    -  ./deploy/airflow/dags:/opt/airflow/dags
+    -  ./deploy/airflow/logs:/opt/airflow/logs
+    -  ./deploy/airflow/config:/opt/airflow/config
+    -  ./deploy/airflow/plugins:/opt/airflow/plugins
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -255,7 +256,6 @@ services:
         echo
         echo "Creating missing opt dirs if missing:"
         echo
-        mkdir -v -p /opt/airflow/{logs,dags,plugins,config}
         echo
         echo "Airflow version:"
         /entrypoint airflow version
@@ -283,6 +283,7 @@ services:
         echo "Files in shared volumes:"
         echo
         ls -la /opt/airflow/{logs,dags,plugins,config}
+#        mkdir -v -p /opt/airflow/{logs,dags,plugins,config}
 
     # yamllint enable rule:line-length
     environment:

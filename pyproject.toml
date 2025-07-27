@@ -11,5 +11,11 @@ dependencies = [
     "scikit-learn==1.3.0",
     "autogluon-tabular==1.0.0",
     "autogluon==1.0.0",
-    "ipykernel>=6.29.5"
+    "ipykernel>=6.29.5",
+    "setuptools>=80.9.0",
+    "wheel>=0.45.1",
+    "twine>=6.1.0",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]

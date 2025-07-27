@@ -6,7 +6,7 @@ import joblib
 from datetime import datetime
 from loguru import logger
 from sklearn.preprocessing import StandardScaler
-import feature_engineering as fe
+import src.feature_engineering as fe
 
 
 def preprocess_data():
