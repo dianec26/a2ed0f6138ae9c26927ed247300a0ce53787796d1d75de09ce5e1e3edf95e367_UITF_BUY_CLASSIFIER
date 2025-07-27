@@ -106,15 +106,20 @@ Mount the data and model directories and run the pipeline in the Docker image:
 ## Airflow 
 
 ### Docker Compose Setup:
-1. Extract the Docker Compose and follow the instructions here
-    - https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html
+1. Fetch the Docker Compose and follow the instructions here
+    - https://airflow.apache.org/docs/apache-airflow/3.0.3/docker-compose.yaml
 2. For Local implementation, change the following:
     - Change ```CeleryExecutor``` to ```LocalExecutor```
     - For lightweight docker contianers: set ```AIRFLOW__CORE__LOAD_EXAMPLES: 'false'```
     - Remove the following block of code since we are using a local implementation:
       - ```flower```
       - ```airflow-worker```
-
+3. Set environment: ```echo -e "AIRFLOW_UID=$(id -u)" > .env```
+4. Initialize database: ```docker compose up airflow-init```
+5. Basic commands: 
+    - Run docker compose: ```docker compose up```
+    - Shutdown docker compose: ```docker compose down -v```
+    - Cleaning up: ```docker compose down --volumes --rmi all```
 
 ## Precommit Configuration:
 - repo: https://github.com/pre-commit/pre-commit-hooks:
