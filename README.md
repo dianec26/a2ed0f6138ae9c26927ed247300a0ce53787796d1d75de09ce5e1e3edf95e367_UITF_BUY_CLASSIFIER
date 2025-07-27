@@ -43,7 +43,8 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ### Local Setup (Setting up UV): 
 1. Install uv: `pip install uv`
 2. Initialize uv: `uv init`
-3. Define dependencies in pyproject.toml (optional if you already have the .toml file): `
+3. Define dependencies in pyproject.toml (optional if you already have the .toml file):
+<pre><code>
    dependencies = [
     "loguru>=0.7.3",
     "matplotlib>=3.10.3",
@@ -52,8 +53,8 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
     "autogluon-tabular==1.0.0",
     "autogluon==1.0.0",
     "ipykernel>=6.29.5"
-]`
-4. Synchronize the libraries: `uv sync`\
+]` </code> </pre>
+5. Synchronize the libraries: `uv sync` 
    
 ### Running the Pipeline:
 1. Set up uv as seen in **Setup Instructions Section**
