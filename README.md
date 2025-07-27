@@ -74,10 +74,6 @@ This setup avoids unnecessary layers and complexity while ensuring fast dependen
 
 
 
-This setup keeps the image lean and easy to maintain while ensuring compatibility with CI/CD environments and reproducible builds.
-
-
-
 ### Containerize Your ML Pipeline with Docker:
 - Run and build Dockerfile (note we run this inside root folder)
     - Create a Docker ml-pipeline image using the dockerfile
