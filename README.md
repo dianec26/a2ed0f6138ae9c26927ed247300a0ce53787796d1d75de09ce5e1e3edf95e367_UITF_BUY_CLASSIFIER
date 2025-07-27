@@ -27,6 +27,8 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
         ├── logs/                    # Log folder (placeholder, auto-managed by Airflow)
         │   └── .gitkeep             # Keeps the directory in version control
         │
+        ├── plugins/
+        │
         └── config/                  # (Optional) Custom Airflow settings
             └── airflow_local_settings.py
 </code></pre>
