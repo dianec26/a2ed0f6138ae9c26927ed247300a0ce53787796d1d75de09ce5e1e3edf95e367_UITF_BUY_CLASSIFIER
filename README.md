@@ -57,12 +57,12 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 1. Create a dockerfile 
 2. Specify the Python version ```FROM python:3.10.13-slim```
 3. Install Python
-<code> RUN apt-get update && apt-get install -y \
+<pre><code> RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
     curl \
     && rm -rf /var/lib/apt/lists/*
-</code>
+</code></pre>
 4. Install UV ```RUN pip install uv```
 5. Copy pyrproject.toml .  ```COPY pyproject.toml .```
 6. Uv sync ```RUN uv sync```
