@@ -102,7 +102,9 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
   - checks for the trailing whitespace, ,end-of-file fixer and spell-check for the README.md file
 - repo: https://github.com/psf/black:
   - Runs Black, an opinionated Python code formatter, to automatically format Python files to a consistent style (e.g., consistent indentation, line length, and quote usage).
- 
+- repo: https://github.com/adrienverge/yamllint.git
+   - Check for syntax validity, but for weirdnesses like key repetition and cosmetic problems such as line length, trailing spaces, indentation
+     
 ## Reflection:
 During the development of this project, one challenge I encountered was configuring pre-commit hooks, particularly ensuring that all lines adhered to the 88-character limit. This required manually reviewing and adjusting multiple lines while experimenting with different formatting tools to find a configuration that balanced readability and compliance. Switching Python versions within a virtual environment proved tricky—I initially attempted to change versions without deactivating the environment, which led to version conflicts until I properly deactivated and reconfigured it. Finally, installing AutoGluon posed dependency issues due to strict version requirements for scikit-learn and pandas, which I resolved by explicitly specifying compatible versions in the pyproject.toml file to maintain a consistent and functional environment.
 
