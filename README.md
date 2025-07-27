@@ -121,6 +121,12 @@ Mount the data and model directories and run the pipeline in the Docker image:
     - Shutdown docker compose: ```docker compose down -v```
     - Cleaning up: ```docker compose down --volumes --rmi all```
 
+### DAG Design:
+    1. Dag Structure
+    2. Task
+    3. Dependenceis 
+    4. Rationale
+
 ## Precommit Configuration:
 - repo: https://github.com/pre-commit/pre-commit-hooks:
   - checks for the trailing whitespace, ,end-of-file fixer and spell-check for the README.md file
