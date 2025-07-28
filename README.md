@@ -119,7 +119,7 @@ Mount the data and model directories and run the pipeline in the Docker image:
         - ```./src:/opt/airflow/srcs```
             - format is (local path): (path inside the docker image)
     - Adding requiements.txt
-        - Get the reauirements.txt ``
+        - Get the reauirements.txt `    uv pip freeze > requirements.txt`
         - Mount requirements.txt `./requirements.txt:/opt/requirements.txt`
         - Set `_PIP_ADDITIONAL_REQUIREMENTS = '-r /opt/requirements.txt'`    
 4. Set environment: ```echo -e "AIRFLOW_UID=$(id -u)" > .env```
@@ -128,7 +128,7 @@ Mount the data and model directories and run the pipeline in the Docker image:
     - Run docker compose: ```docker compose up```
     - Shutdown docker compose: ```docker compose down -v```
     - Cleaning up: ```docker compose down --volumes --rmi all```
-
+    
       
 note: install airflow in the docker image `uv pip install "apache-airflow==3.0.3”`
 ### DAG Design:
