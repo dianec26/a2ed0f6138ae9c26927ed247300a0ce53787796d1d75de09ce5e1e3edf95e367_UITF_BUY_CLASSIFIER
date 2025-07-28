@@ -108,18 +108,27 @@ Mount the data and model directories and run the pipeline in the Docker image:
 ### Docker Compose Setup:
 1. Fetch the Docker Compose and follow the instructions here
     - https://airflow.apache.org/docs/apache-airflow/3.0.3/docker-compose.yaml
-2. For Local implementation, change the following:
-    - Change ```CeleryExecutor``` to ```LocalExecutor```
-    - For lightweight docker contianers: set ```AIRFLOW__CORE__LOAD_EXAMPLES: 'false'```
-    - Remove the following block of code since we are using a local implementation:
-      - ```flower```
-      - ```airflow-worker```
-3. Set environment: ```echo -e "AIRFLOW_UID=$(id -u)" > .env```
-4. Initialize database: ```docker compose up airflow-init```
-5. Basic commands: 
+2. Customization docker-compoase.yaml:
+    - For Local implementation, change the following:
+        - Change ```CeleryExecutor``` to ```LocalExecutor```
+        - For lightweight docker contianers: set ```AIRFLOW__CORE__LOAD_EXAMPLES: 'false'```
+        - Remove the following block of code since we are using a local implementation:
+          - ```flower```
+          - ```airflow-worker```
+    - Adding mounts so the docker-compose can use the scripts:
+        - ```./src:/opt/airflow/srcs```
+            - format is (local path): (path inside the docker image)
+    - Adding requiements.txt
+        - Get the reauirements.txt ``
+        - Mount requirements.txt `./requirements.txt:/opt/requirements.txt`
+        - Set `_PIP_ADDITIONAL_REQUIREMENTS = '-r /opt/requirements.txt'`    
+4. Set environment: ```echo -e "AIRFLOW_UID=$(id -u)" > .env```
+5. Initialize database: ```docker compose up airflow-init```
+6. Basic commands: 
     - Run docker compose: ```docker compose up```
     - Shutdown docker compose: ```docker compose down -v```
     - Cleaning up: ```docker compose down --volumes --rmi all```
+
       
 note: install airflow in the docker image `uv pip install "apache-airflow==3.0.3”`
 ### DAG Design:
