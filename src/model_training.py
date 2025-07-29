@@ -25,7 +25,7 @@ def train_model(train_data):
     logger.info(
         f"Starting model training at {process_start.strftime('%Y-%m-%d %H:%M:%S')}"
     )
-    predictor = TabularPredictor(label="buy", path=".").fit(train)
+    predictor = TabularPredictor(label="buy", path="../").fit(train)
     # sleep for 5 seconds to save all models
     time.sleep(5)
     process_end = datetime.now()

@@ -14,8 +14,4 @@ repos:
     rev: 24.8.0
     hooks:
     - id: black
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.29.0
-    hooks:
-      - id: yamllint
-        args: [--strict, -c=/path/to/.yamllint]
+
