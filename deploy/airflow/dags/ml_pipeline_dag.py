@@ -1,15 +1,14 @@
 import sys
+import os
+import pickle
 sys.path.append('/opt/airflow')
-
 
 from src.data_preprocessing import preprocess_data
 from src.model_training import train_model
 from src.evaluation import evaluate_model
 from datetime import datetime, timedelta
-from airflow.decorators import task,dag
-
-#activate environmentls
-#C:/Users/Admin/Documents/GitHub/a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367_UITF_BUY_CLASSIFIER/.venv/Scripts/activate.bat actviate env
+from airflow import DAG
+from airflow.operators.python import PythonOperator
 
 default_args = {
     'owner': 'airflow',
@@ -17,36 +16,74 @@ default_args = {
     'retry_delay': timedelta(minutes=5)
 }
 
-@dag(
+dag = DAG(
     dag_id='ml_pipeline_dag',
     default_args=default_args,
     description='ML pipeline using dag and task decorators for UITF data',
-    schedule_interval=None, 
+    schedule=None, 
     start_date=datetime(2025, 1, 1),
     catchup=False,
     tags=['ml', 'taskflow'],
 )
 
-@task
-def get_data():
+def get_data(**context):
     train_data, test_data = preprocess_data()
-    return {'train': train_data, 'test': test_data}
+    
+    os.makedirs('/tmp/airflow_data', exist_ok=True)
+    
+    with open('/tmp/airflow_data/train_data.pkl', 'wb') as f:
+        pickle.dump(train_data, f)
+    
+    with open('/tmp/airflow_data/test_data.pkl', 'wb') as f:
+        pickle.dump(test_data, f)
+    
+    context['task_instance'].xcom_push(key='train_data_path', value='/tmp/airflow_data/train_data.pkl')
+    context['task_instance'].xcom_push(key='test_data_path', value='/tmp/airflow_data/test_data.pkl')
 
-@task
-def model_training(train_data):
+def model_training(**context):
+    train_data_path = context['task_instance'].xcom_pull(key='train_data_path', task_ids='get_data')
+    
+    with open(train_data_path, 'rb') as f:
+        train_data = pickle.load(f)
+    
     model = train_model(train_data)
-    return model
+    
+    model_path = '/tmp/airflow_data/model.pkl'
+    with open(model_path, 'wb') as f:
+        pickle.dump(model, f)
+    
+    return model_path
 
-@task
-def model_evaluation(model, test_data):
+def model_evaluation(**context):
+    model_path = context['task_instance'].xcom_pull(task_ids='model_training')
+    test_data_path = context['task_instance'].xcom_pull(key='test_data_path', task_ids='get_data')
+    
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    
+    with open(test_data_path, 'rb') as f:
+        test_data = pickle.load(f)
+    
     scores = evaluate_model(model, test_data)
-    print(f"Model scores: {scores}")
+    print(scores)
     return scores
 
-def ml_pipeline():
-    data = get_data()
-    model = model_training(data['train'])
-    model_evaluation(model, data['test'])
-    
-# Instantiate the DAG
-dag_instance = ml_pipeline()
+get_data_task = PythonOperator(
+    task_id='get_data',
+    python_callable=get_data,
+    dag=dag,
+)
+
+model_training_task = PythonOperator(
+    task_id='model_training',
+    python_callable=model_training,
+    dag=dag,
+)
+
+model_evaluation_task = PythonOperator(
+    task_id='model_evaluation',
+    python_callable=model_evaluation,
+    dag=dag,
+)
+
+get_data_task >> model_training_task >> model_evaluation_task
