@@ -20,8 +20,11 @@ def evaluate_model(model, test_data):
     Returns:
         dict: Dictionary containing all metrics
     """
-    y_true = test_data["buy"].copy()
-    y_pred = model.predict(test_data.drop("buy", axis=1))
+    to_drop_final = ["original_label", "buy_reason", "buy_strength"]
+    test = test_data.drop(to_drop_final, errors='ignore', axis=1)
+    
+    y_true = test["buy"].copy()
+    y_pred = model.predict(test.drop(["buy"], axis=1))
 
     metrics = {}
 
