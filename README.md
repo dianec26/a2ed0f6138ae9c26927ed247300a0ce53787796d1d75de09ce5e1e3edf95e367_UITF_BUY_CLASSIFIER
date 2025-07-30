@@ -105,6 +105,9 @@ Mount the data and model directories and run the pipeline in the Docker image:
 
 ## Airflow 
 
+### Docker Compose Defenition
+- Docker Compose is a way to create reproducible Docker containers using a config file instead of extremely long Docker commands. By using a structured config file, mistakes are easier to pick up and container interactions are easier to define.
+
 ### Docker Compose Setup:
 1. Fetch the Docker Compose and follow the instructions here
     - https://airflow.apache.org/docs/apache-airflow/3.0.3/docker-compose.yaml
@@ -116,11 +119,12 @@ Mount the data and model directories and run the pipeline in the Docker image:
       - ```airflow-worker```
 3. Set environment: ```echo -e "AIRFLOW_UID=$(id -u)" > .env```
 4. Initialize database: ```docker compose up airflow-init```
-5. Basic commands: 
-    - Run docker compose: ```docker compose up```
-    - Shutdown docker compose: ```docker compose down -v```
+5. Running airflow: ```docker compose up```
+6. Shutting down docker:```docker compose down -v```
+
+**Other Basic commands**
     - Cleaning up: ```docker compose down --volumes --rmi all```
-      
+
 note: install airflow in the docker image `uv pip install "apache-airflow==3.0.3”`
 ### DAG Design:
     1. Dag Structure
@@ -141,3 +145,7 @@ During the development of this project, one challenge I encountered was configur
 
 
 
+### References:
+Docker:
+- Docker Compose: https://adamtheautomator.com/docker-compose-tutorial/
+- Docker Concepts: https://github.com/dylanlrrb/Please-Contain-Yourself/tree/master/1-Installation_and_Intro

@@ -71,13 +71,13 @@ services:
     expose:
       - 6379
     healthcheck:
-      test: [CMD, redis-cli, ping]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 30s
       retries: 50
       start_period: 30s
     restart: always
-
+    
   airflow-apiserver:
     <<: *airflow-common
     command: api-server
