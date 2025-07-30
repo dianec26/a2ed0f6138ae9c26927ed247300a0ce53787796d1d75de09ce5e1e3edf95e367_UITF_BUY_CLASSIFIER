@@ -183,8 +183,9 @@ Catchup: False (No historical runs)
    - Check for syntax validity, but for weirdnesses like key repetition and cosmetic problems such as line length, trailing spaces, indentation
      
 ## Reflection:
-During the development of this project, one challenge I encountered was configuring pre-commit hooks, particularly ensuring that all lines adhered to the 88-character limit. This required manually reviewing and adjusting multiple lines while experimenting with different formatting tools to find a configuration that balanced readability and compliance. Switching Python versions within a virtual environment proved tricky—I initially attempted to change versions without deactivating the environment, which led to version conflicts until I properly deactivated and reconfigured it. Finally, installing AutoGluon posed dependency issues due to strict version requirements for scikit-learn and pandas, which I resolved by explicitly specifying compatible versions in the pyproject.toml file to maintain a consistent and functional environment.
-
+- Docker Compose volumes: Since we used relative paths, we needed to mount as /opt/airflow/<filename>. Initially, I didn't add the airflow folder structure, and Airflow had issues finding the volumes.
+- AutoML library installation time: I used an AutoML library that takes at least 30 minutes to install. It was really hard to test since just building and doing docker compose takes too much time, so I rewrote my modeling script to only include simple algorithms to speed up the build to 5 minutes.
+- Module import issues: Using the base image would lead to "module not found" errors. Currently, to solve this issue, I specified the libraries in _PIP_ADDITIONAL_REQUIREMENTS. Given the chance to redo this section, I would do the following: first create a Dockerfile that would copy the TOML file, set up UV and sync dependencies, then build and pull that image to use in the Docker Compose configuration.
 
 ### Resources
 - Docker
