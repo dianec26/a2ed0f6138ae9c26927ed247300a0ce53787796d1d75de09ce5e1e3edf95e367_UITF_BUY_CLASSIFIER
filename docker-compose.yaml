@@ -7,7 +7,7 @@ x-airflow-common: &airflow-common
   # build: .
   # build:
   #     context: .
-  #     dockerfile: ./deploy/docker/dockerfile
+  #     dockerfile: ./deploy/docker/DockerfileS
   environment: &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
@@ -63,7 +63,7 @@ services:
       retries: 5
       start_period: 5s
     restart: always
-
+    
   redis:
     # Redis is limited to 7.2-bookworm due to licencing change
     # https://redis.io/blog/redis-adopts-dual-source-available-licensing/
@@ -77,7 +77,7 @@ services:
       retries: 50
       start_period: 30s
     restart: always
-    
+
   airflow-apiserver:
     <<: *airflow-common
     command: api-server
