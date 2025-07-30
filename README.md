@@ -5,6 +5,8 @@ This project addresses a buy classification problem tailored for daily trading d
 
 The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATRAM Global Financials Feeder Fund, scraped and cleaned from UITF.com.ph. I chose this fund because it is part of my personal investment portfolio, which I currently manage using an intuitive "buy when it seems low" approach. By formalizing this strategy through machine learning, I aim to validate and enhance my buying decisions using structured signals grounded in technical analysis.
 
+
+
 ## Data: 
 - found in the data folder (data < 1mb)
 
@@ -18,7 +20,7 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 ├── src/   
 └── deploy/                          # Containerization and orchestration support
     ├── docker/                      # Dockerfiles and build assets
-    │   └── dockerfile               # Container definition for ML app
+    │   └── Dockerfile               # Container definition for ML app
     │
     └── airflow/                     # Airflow orchestration
         ├── dags/                    # DAG definitions for ML workflows<br>
@@ -39,6 +41,12 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 - models/: Holds all saved model files, including experiment outputs and the preprocessing scaler, to ensure reproducibility.
 - reports/: Includes visualizations, evaluation metrics, and summaries generated after model training.
 - src/: Contains all source code such as scripts for data processing, feature engineering, training, and evaluation.
+
+**containerized, orchestrated workflow**
+- airflow/dags/: Isolating DAGs in airflow/dags/ ensures modularity, allowing independent testing of workflow tasks without affecting the core ML code. This separation enables:
+- deploy/docker/: Centralizes all containerization assets
+- airflow/logs/: Accounts for operational monitorng such that we can the different dogs of the DAGs, where it failed and succeed.
+
 
 ## Environment Setups:
 
