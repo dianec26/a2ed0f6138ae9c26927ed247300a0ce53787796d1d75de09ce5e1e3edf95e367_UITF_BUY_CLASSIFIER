@@ -15,7 +15,8 @@ dependencies = [
     "setuptools>=80.9.0",
     "wheel>=0.45.1",
     "twine>=6.1.0",
+    "poetry>=1.4.2",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.poetry.dependencies]
+python = "=3.10"

@@ -7,8 +7,6 @@ import time
 def main():
     train_data, test_data = preprocess_data()
     model = train_model(train_data)
-    # need sleep to save all models
-    time.sleep(5)
     scores = evaluate_model(model, test_data)
     print(scores)
 

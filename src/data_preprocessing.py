@@ -143,6 +143,8 @@ def preprocess_data():
         for col in final_df.columns
         if col not in exclude_cols and final_df[col].dtype in ["float64", "int64"]
     ]
+    
+    print("feature_cols: ", feature_cols)
 
     print(f"Total features: {len(feature_cols)}")
     print("Target variable: buy")
