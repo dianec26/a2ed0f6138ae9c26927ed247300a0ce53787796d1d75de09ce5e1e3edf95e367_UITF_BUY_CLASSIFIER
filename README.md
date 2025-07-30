@@ -111,6 +111,8 @@ Mount the data and model directories and run the pipeline in the Docker image:
   
 
 ## Airflow 
+### Docker Intergration
+- In this implementation we used airflow's base image apache/airflow:3.0.3-python3.10, an adding installing the dependencies using ` _PIP_ADDITIONAL_REQUIREMENTS`
 
 ### Docker Compose Setup:
 1. Fetch the Docker Compose and follow the instructions here
@@ -145,7 +147,6 @@ Mount the data and model directories and run the pipeline in the Docker image:
 **Basic commands:**
     - Cleaning up: ```docker compose down --volumes --rmi all```
       
-note: install airflow in the docker image `uv pip install "apache-airflow==3.0.3”`
 ### Airflow DAG:
 
 #### Dag Structure
@@ -160,7 +161,7 @@ The ml_pipeline_dag is a machine learning workflow designed to automate the comp
 2. model_training_task: Executes train_model() with the loaded training data and saves trained model as pickle file and returns model path
 3. model_evaluation_task: Runs evaluate_model() to generate performance scores  Prints evaluation scores and returns them for logging
 
-**Dependencies**
+**Dependencies** <br>
 The DAG follows a linear dependency chain, each task is ran sequentially staring from left most task to the right
 
 #### Scheduling Rationale
