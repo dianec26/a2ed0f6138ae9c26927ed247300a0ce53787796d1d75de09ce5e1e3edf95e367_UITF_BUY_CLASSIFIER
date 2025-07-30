@@ -65,7 +65,7 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
       - script flow: data_processing.py > model_training.py > evaluation.py
 
 ## Docker
-**Note: This was only used for running; this wasn't used a container for airflow **
+**Note: This was only used for running the ml-pipeline; this wasn't used as container for airflow **
 
 ### Docker Main Process: 
 1. Docker Installation: install Docker Desktop (https://docs.docker.com/engine/install/)
@@ -73,7 +73,7 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 4. Image Building: Build an image using the docker build command. This reads the Dockerfile and packages the application into an image that can be run as a container.
 5. Volume Strategy: Volumes are used to persist and share data between the host machine and the Docker container. This allows the pipeline to read input data and write outputs (such as models or logs) without modifying the container image.
 
-### Docker Integration Flow:
+### Steps to run a Dockerfile :
 1. Dockerfile
 2. Build/run commands
 3. Volume Strategies
@@ -142,10 +142,32 @@ Mount the data and model directories and run the pipeline in the Docker image:
       
 note: install airflow in the docker image `uv pip install "apache-airflow==3.0.3”`
 ### DAG Design:
-    1. Dag Structure
-    2. Task
-    3. Dependenceis 
-    4. Rationale
+
+#### Dag Structure
+The ml_pipeline_dag is a machine learning workflow designed to automate the complete ML lifecycle for UITF data processing. This DAG orchestrates data preprocessing, model training, and evaluation in a sequential pipeline using Apache Airflow.
+
+#### Airflow DAG
+<pre><code> get_data_task >> model_training_task >> model_evaluation_task</code></pre>
+
+#### Tasks
+1.
+2.
+3. 
+
+
+**Dependencies**
+
+#### Scheduling Rationale
+- Scheduling Settings:
+<pre><code>
+Schedule: None (Manual triggering only)
+Start Date: January 1, 2025
+Catchup: False (No historical runs)
+</code></pre>
+- On-demand execution: This ML pipeline pends on data availability rather than fixed schedules. Additionally since the data is static thus would only require to run the model once tthe data is updated.
+
+
+
 
 ## Precommit Configuration:
 - repo: https://github.com/pre-commit/pre-commit-hooks:
@@ -160,3 +182,7 @@ During the development of this project, one challenge I encountered was configur
 
 
 
+### Resources
+- Docker
+    - Docker Concepts: https://github.com/dianec26/a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367_UITF_BUY_CLASSIFIER/blob/hw2-docker-airflow/README.md
+    - Docker Compose: https://adamtheautomator.com/docker-compose-tutorial/
