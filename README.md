@@ -48,13 +48,11 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
 3. Define dependencies in pyproject.toml (optional if you already have the .toml file):
 <pre><code>
    dependencies = [
-    "loguru>=0.7.3",
-    "matplotlib>=3.10.3",
+    "loguru==0.7.3",
+    "matplotlib==3.10.3",
     "pandas==2.0.0",
     "scikit-learn==1.3.0",
-    "autogluon-tabular==1.0.0",
-    "autogluon==1.0.0",
-    "ipykernel>=6.29.5"
+    "ipykernel==6.29.5",
 ]` </code> </pre>
 5. Synchronize the libraries: `uv sync` 
    
@@ -138,10 +136,9 @@ Mount the data and model directories and run the pipeline in the Docker image:
 6. Shutdown docker compose: ```docker compose down -v```
 **Basic commands:**
     - Cleaning up: ```docker compose down --volumes --rmi all```
-    
       
 note: install airflow in the docker image `uv pip install "apache-airflow==3.0.3”`
-### DAG Design:
+### Airflow DAG:
 
 #### Dag Structure
 The ml_pipeline_dag is a machine learning workflow designed to automate the complete ML lifecycle for UITF data processing. This DAG orchestrates data preprocessing, model training, and evaluation in a sequential pipeline using Apache Airflow.
@@ -150,12 +147,13 @@ The ml_pipeline_dag is a machine learning workflow designed to automate the comp
 <pre><code> get_data_task >> model_training_task >> model_evaluation_task</code></pre>
 
 #### Tasks
-1.
-2.
-3. 
-
+1. get_data_task: Saves preprocessed data as pickle files in /tmp/airflow_data/
+    - XCom Usage: Pushes file paths for downstream tasks to access
+2. model_training_task: Executes train_model() with the loaded training data and saves trained model as pickle file and returns model path
+3. model_evaluation_task: Runs evaluate_model() to generate performance scores  Prints evaluation scores and returns them for logging
 
 **Dependencies**
+The DAG follows a linear dependency chain, each task is ran sequentially staring from left most task to the right
 
 #### Scheduling Rationale
 - Scheduling Settings:
@@ -165,8 +163,6 @@ Start Date: January 1, 2025
 Catchup: False (No historical runs)
 </code></pre>
 - On-demand execution: This ML pipeline pends on data availability rather than fixed schedules. Additionally since the data is static thus would only require to run the model once tthe data is updated.
-
-
 
 
 ## Precommit Configuration:
@@ -179,7 +175,6 @@ Catchup: False (No historical runs)
      
 ## Reflection:
 During the development of this project, one challenge I encountered was configuring pre-commit hooks, particularly ensuring that all lines adhered to the 88-character limit. This required manually reviewing and adjusting multiple lines while experimenting with different formatting tools to find a configuration that balanced readability and compliance. Switching Python versions within a virtual environment proved tricky—I initially attempted to change versions without deactivating the environment, which led to version conflicts until I properly deactivated and reconfigured it. Finally, installing AutoGluon posed dependency issues due to strict version requirements for scikit-learn and pandas, which I resolved by explicitly specifying compatible versions in the pyproject.toml file to maintain a consistent and functional environment.
-
 
 
 ### Resources
