@@ -5,7 +5,7 @@ This project addresses a buy classification problem tailored for daily trading d
 
 The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATRAM Global Financials Feeder Fund, scraped and cleaned from UITF.com.ph. I chose this fund because it is part of my personal investment portfolio, which I currently manage using an intuitive "buy when it seems low" approach. By formalizing this strategy through machine learning, I aim to validate and enhance my buying decisions using structured signals grounded in technical analysis.
 
-
+Building upon our initial implementation, we will add orchestration capabilities using Apache Airflow. Airflow is a powerful orchestration library that enables us to create Directed Acyclic Graphs (DAGs) using task dependencies, ensuring our code runs smoothly while providing comprehensive monitoring capabilities. To run Airflow effectively, we need to set up a Docker Compose configuration, which requires a Docker image as its foundation. Docker containers are created from these images, which define the complete runtime environment including the operating system, dependencies, libraries, and the application itself. Once built, these images remain immutable, ensuring consistent behavior across all environments. Implementing Airflow orchestration is crucial because it transforms individual scripts into a cohesive, monitored, and resilient data pipeline. The combination of retry mechanisms, dependency management, and monitoring capabilities ensures our workflows can handle real-world challenges while maintaining visibility into system performance and failures.
 
 ## Data: 
 - found in the data folder (data < 1mb)
