@@ -65,6 +65,7 @@ The dataset consists of daily Net Asset Value per Unit (NAVPU) prices of the ATR
       - script flow: data_processing.py > model_training.py > evaluation.py
 
 ## Docker
+**Note: This was only used for running; this wasn't used a container for airflow **
 
 ### Docker Main Process: 
 1. Docker Installation: install Docker Desktop (https://docs.docker.com/engine/install/)
@@ -110,23 +111,32 @@ Mount the data and model directories and run the pipeline in the Docker image:
     - https://airflow.apache.org/docs/apache-airflow/3.0.3/docker-compose.yaml
 2. Customization docker-compoase.yaml:
     - For Local implementation, change the following:
-        - Change ```CeleryExecutor``` to ```LocalExecutor```
-        - For lightweight docker contianers: set ```AIRFLOW__CORE__LOAD_EXAMPLES: 'false'```
-        - Remove the following block of code since we are using a local implementation:
+       1. Change ```CeleryExecutor``` to ```LocalExecutor```
+       2. For lightweight docker contianers: set ```AIRFLOW__CORE__LOAD_EXAMPLES: 'false'```
+       3. Remove the following block of code since we are using a local implementation:
           - ```flower```
           - ```airflow-worker```
-    - Adding mounts so the docker-compose can use the scripts:
-        - ```./src:/opt/airflow/srcs```
-            - format is (local path): (path inside the docker image)
-    - Adding requiements.txt
-        - Get the reauirements.txt `    uv pip freeze > requirements.txt`
-        - Mount requirements.txt `./requirements.txt:/opt/requirements.txt`
-        - Set `_PIP_ADDITIONAL_REQUIREMENTS = '-r /opt/requirements.txt'`    
-4. Set environment: ```echo -e "AIRFLOW_UID=$(id -u)" > .env```
-5. Initialize database: ```docker compose up airflow-init```
-6. Basic commands: 
-    - Run docker compose: ```docker compose up```
-    - Shutdown docker compose: ```docker compose down -v```
+       4. Set the pip requirements in x-airflow-common
+            <pre><code>
+            _PIP_ADDITIONAL_REQUIREMENTS: > loguru==0.7.3 matplotlib==3.10.3 pandas==2.0.0 scikit-learn==1.3.0 xgboost==2.0.3 numpy==1.24.3
+            </code></pre>
+       5. Mounting the docker-compose can use the scripts:
+        <pre><code>
+            #format is (local path): (path inside the docker image)
+              volumes:
+                - ./data:/opt/airflow/data
+                - ./pyproject.toml:/opt/airflow/pyproject.toml
+                - ./src:/opt/airflow/src
+                - ./deploy/airflow/dags:/opt/airflow/dags
+                - ./deploy/airflow/logs:/opt/airflow/logs
+                - ./deploy/airflow/config:/opt/airflow/config
+                - ./deploy/airflow/plugins:/opt/airflow/plugins
+        </code></pre>
+3. Set environment: ```echo -e "AIRFLOW_UID=$(id -u)" > .env```
+4. Initialize database: ```docker compose up airflow-init```
+5. Run docker compose: ```docker compose up```
+6. Shutdown docker compose: ```docker compose down -v```
+**Basic commands:**
     - Cleaning up: ```docker compose down --volumes --rmi all```
     
       
