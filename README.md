@@ -189,5 +189,5 @@ Catchup: False (No historical runs)
 
 ### Resources
 - Docker
-    - Docker Concepts: https://github.com/dianec26/a2ed0f6138ae9c26927ed247300a0ce53787796d1d75de09ce5e1e3edf95e367_UITF_BUY_CLASSIFIER/blob/hw2-docker-airflow/README.md
+    - Docker Concepts: https://github.com/dylanlrrb/Please-Contain-Yourself/tree/master/1-Installation_and_Intro
     - Docker Compose: https://adamtheautomator.com/docker-compose-tutorial/
